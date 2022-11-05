@@ -21,4 +21,5 @@ function out = gaussian(in)
         initial_r = initial_r +2;
     end
     out = imresize(out,[rows/2 cols/2]);
+    out = uint8(out);
 end

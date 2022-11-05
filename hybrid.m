@@ -8,6 +8,7 @@ rows = min(m_rows,f_rows);
 cols = min(m_cols,f_cols);
 male = imresize(male,[rows cols]);
 female = imresize(female,[rows cols]);
+%d is the size of the filter matrix
 d = 10;
 mid = ceil(d/2);
 high_pass_filter = ones(d)/(d^2-1) * -1;
