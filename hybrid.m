@@ -18,3 +18,4 @@ high_pass = imfilter(female,high_pass_filter);
 low_pass = imfilter(male,low_pass_filter);
 product = high_pass+low_pass;
 imshow(product)
+imwrite(product,'output/man-and-woman.jpg')
