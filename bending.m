@@ -2,10 +2,23 @@ apple = imread('image/apple.png');
 orange = imread('image/orange.png');
 [row,col,rgb] = size(apple);
 orange = imresize(orange,[row col]);
+
 %mask = fspecial('gaussian',[row col],10);
 %mask = mask*(1/max(max(mask)));
-mask = imread('image/mid-mask.png');
-mask = im2bw(mask);
+
+old_mask = imread('image/mid-mask.png');
+old_mask = im2bw(old_mask);
+
+%linear mask
+mask = zeros(row,col);
+span = floor(col/10);
+mid_left = floor(col/2-span);
+mid_right = floor(col/2+span);
+for c = mid_left:mid_right
+    mask(:,c) = (c-mid_left)/(mid_right-mid_left);
+end
+mask(:,mid_right:end) = 1;
+
 h = fspecial('gaussian',[5 5],0.5);
 g_apple = gaussian_pyramid(apple);
 l_apple = laplacian_pyramid(g_apple);
@@ -32,7 +45,7 @@ for i = 1:ls_len
     output = uint8(output);
     output = output +ls{ls_len+1-i};
 end
-original_blend = rgb_mask(apple,mask)+rgb_mask(orange,1-mask);
+original_blend = rgb_mask(apple,old_mask)+rgb_mask(orange,1-old_mask);
 subplot(2,2,1);
 imshow(apple),title('apple')
 subplot(2,2,2);
